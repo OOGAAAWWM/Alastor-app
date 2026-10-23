@@ -13,9 +13,14 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.19.x'
-      - run: flutter pub get
-      - run: flutter build apk --release
-      - uses: actions/upload-artifact@v4
+      - name: Genera struttura progetto Flutter
+        run: flutter create . --platforms=android,windows
+      - name: Scarica dipendenze
+        run: flutter pub get
+      - name: Compila APK Android
+        run: flutter build apk --release
+      - name: Carica file APK
+        uses: actions/upload-artifact@v4
         with:
           name: Alastor-Android-APK
           path: build/app/outputs/flutter-apk/app-release.apk
@@ -27,10 +32,16 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.19.x'
-      - run: flutter config --enable-windows-desktop
-      - run: flutter pub get
-      - run: flutter build windows --release
-      - uses: actions/upload-artifact@v4
+      - name: Abilita supporto Windows
+        run: flutter config --enable-windows-desktop
+      - name: Genera struttura progetto Flutter
+        run: flutter create . --platforms=windows
+      - name: Scarica dipendenze
+        run: flutter pub get
+      - name: Compila EXE Windows
+        run: flutter build windows --release
+      - name: Carica file EXE PC
+        uses: actions/upload-artifact@v4
         with:
           name: Alastor-PC-Windows
           path: build/windows/x64/runner/Release/
